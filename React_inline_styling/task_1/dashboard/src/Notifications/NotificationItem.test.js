@@ -21,8 +21,8 @@ describe('<NotificationItem />', () => {
     it('renders an <NotificationItem /> component with type and value', () => {
         const wrapper = shallow(<NotificationItem type="default" value="test" />);
         expect(wrapper.props()[ 'data-notification-type' ]).toEqual('default');
+        expect(wrapper.hasClass('default_1tsdo2i')).toBe(true);
         expect(wrapper.text()).toEqual('test');
-        expect(wrapper.html()).toContain('<li data-notification-type="default"');
         expect(wrapper.html()).toContain('test</li>');
     });
 

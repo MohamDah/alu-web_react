@@ -1,14 +1,30 @@
 import React, { memo } from 'react';
 import './Notifications.css';
 import PropTypes from 'prop-types';
+import { StyleSheet, css } from 'aphrodite';
+
+const styles = StyleSheet.create({
+    default: {
+        color: 'blue',
+    },
+    urgent: {
+        color: 'red',
+    },
+});
 
 // functional component ES6 shortcut
 const NotificationItem = ({ type, html, value, markAsRead }) => {
     // JSX goes here
     return (
         <li
-            data-notification-type={ type } dangerouslySetInnerHTML={ html }
+            data-notification-type={type}
+            dangerouslySetInnerHTML={html}
             onClick={markAsRead}
+            className={css(
+                type === 'default'
+                    ? styles.default
+                    : styles.urgent
+            )}
         >{ value }</li>
     );
 };

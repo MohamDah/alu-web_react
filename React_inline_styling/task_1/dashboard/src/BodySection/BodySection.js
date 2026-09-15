@@ -23,7 +23,7 @@ BodySection.propTypes = {
 
 BodySection.defaultProps = {
     title: '',
-    children: {},
+    children: null,
 };
 
 export default BodySection;

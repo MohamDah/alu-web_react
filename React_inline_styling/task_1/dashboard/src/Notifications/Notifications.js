@@ -31,7 +31,12 @@ class Notifications extends React.Component {
 	}
 
 	shouldComponentUpdate(nextProps) {
-		return nextProps.length > this.props.listNotifications.length;
+		const nextList = Array.isArray(nextProps)
+			? nextProps
+			: nextProps.listNotifications;
+		return (
+			nextList.length > this.props.listNotifications.length
+		);
 	}
 
 	markAsRead(id) {
@@ -43,9 +48,6 @@ class Notifications extends React.Component {
 			<React.Fragment>
 				{this.props.displayDrawer ? (
 					<div className={css(styles['flex-area'])}>
-						<div className={css(styles.menuItem)}>
-							<p>Your notifications</p>
-						</div>
 						<div className={css(styles.Notifications)}>
 							<ul>
 								{this.props.listNotifications &&
@@ -54,7 +56,7 @@ class Notifications extends React.Component {
 										({ id, html, type, value }) => (
 											<NotificationItem
 												key={id}
-												markAsRead={this.markAsRead}
+														markAsRead={() => this.markAsRead(id)}
 												type={type}
 												value={value}
 												html={html}
@@ -70,7 +72,7 @@ class Notifications extends React.Component {
 												background: 'none',
 											}}
 											aria-label='Close'
-											onClick={console.log('Close button has been clicked')}
+											onClick={() => console.log('Close button has been clicked')}
 										>
 											<img
 												style={{ display: 'inline' }}

@@ -38,14 +38,29 @@ describe('Notification tests', () => {
 		wrapper.find('ul').forEach((node) => {
 			expect(node.equals(<NotificationItem />));
 		});
-		expect(wrapper.find('ul').childAt(0).html()).toEqual(
-			'<li class="default_1tsdo2i" data-notification-type="default">New course available</li>'
+		const firstItem = wrapper.find('ul').childAt(0).dive();
+		const secondItem = wrapper.find('ul').childAt(1).dive();
+		const thirdItem = wrapper.find('ul').childAt(2).dive();
+
+		expect(firstItem.prop('data-notification-type')).toBe(
+			'default'
 		);
-		expect(wrapper.find('ul').childAt(1).html()).toEqual(
-			'<li class="urgent_137u7ef" data-notification-type="urgent">New resume available</li>'
+		expect(firstItem.text()).toBe('New course available');
+		expect(firstItem.hasClass('default_1tsdo2i')).toBe(
+			true
 		);
-		expect(wrapper.find('ul').childAt(2).html()).toEqual(
-			`<li data-urgent=\"true\" class=\"urgent_137u7ef\">${getLatestNotification()}</li>`
+		expect(secondItem.prop('data-notification-type')).toBe(
+			'urgent'
+		);
+		expect(secondItem.text()).toBe('New resume available');
+		expect(secondItem.hasClass('urgent_137u7ef')).toBe(
+			true
+		);
+		expect(thirdItem.prop('dangerouslySetInnerHTML')).toEqual(
+			getLatestNotification()
+		);
+		expect(thirdItem.hasClass('urgent_137u7ef')).toBe(
+			true
 		);
 	});
 
@@ -73,28 +88,29 @@ describe('Notification tests', () => {
 	it('displays menu item when displayDrawer is false', () => {
 		const wrapper = shallow(<Notifications displayDrawer={false} />);
 
-		expect(wrapper.find('div.menuItem').exists()).toBe(false);
-		expect(wrapper.find('div.menuItem').html()).toEqual(
-			'<div class="menuItem"><p>Your notifications</p></div>'
-		);
+		expect(wrapper.find('p').filterWhere((node) =>
+			node.text() === 'Your notifications'
+		)).toHaveLength(1);
 	});
 
 	it('does not display notifications when displayDrawer is false', () => {
 		const wrapper = shallow(<Notifications displayDrawer={false} />);
 
-		expect(wrapper.find('div.Notifications').exists()).toBe(false);
+		expect(wrapper.find('ul').exists()).toBe(false);
 	});
 
 	it('does not display menuItem when displayDrawer is true', () => {
 		const wrapper = shallow(<Notifications displayDrawer={true} />);
 
-		expect(wrapper.find('div.menuItem').exists()).toBe(false);
+		expect(wrapper.find('p').filterWhere((node) =>
+			node.text() === 'Your notifications'
+		)).toHaveLength(0);
 	});
 
 	it('displays Notifications when displayDrawer is true', () => {
 		const wrapper = shallow(<Notifications displayDrawer={true} />);
 
-		expect(wrapper.find('div.Notifications').exists()).toBe(false);
+		expect(wrapper.find('ul').exists()).toBe(true);
 	});
 
 	it('renders correctly when listCourses is not passed', () => {
