@@ -41,7 +41,7 @@ describe('<Notifications />', () => {
         expect(wrapper.find('.menuItem')).toHaveLength(1);
     });
 
-    it('does not display div.Notifications when displayDrawer is true', () => {
+    it('does display div.Notifications when displayDrawer is true', () => {
         const wrapper = shallow(<Notifications displayDrawer={ true } />);
         expect(wrapper.find('.Notifications')).toHaveLength(1);
     });
@@ -58,9 +58,8 @@ describe('<Notifications />', () => {
 
     it('renders an <Notifications /> component checking for 3 NotificationItems', () => {
         const wrapper = shallow(<Notifications displayDrawer={ true } listNotifications={ listNotifications } />);
-        console.log(wrapper.debug());
 
-        expect(wrapper.find('.Notifications ul Memo(NotificationItem)')).toHaveLength(3);
+        expect(wrapper.find(NotificationItem)).toHaveLength(3);
     });
 
     it('verifies that the first NotificationItem element renders the html', () => {
@@ -72,7 +71,7 @@ describe('<Notifications />', () => {
         const wrapper = shallow(<Notifications displayDrawer={ true } />);
         expect(wrapper.find('.Notifications')).toHaveLength(1);
         const wrapperTwo = shallow(<Notifications displayDrawer={ true } listNotifications={ [] } />);
-        expect(wrapper.find('.Notifications')).toHaveLength(1);
+        expect(wrapperTwo.find('.Notifications')).toHaveLength(1);
     });
 
     it('verifies that when you pass a list of notifications, the component renders it correctly and with the right number of NotificationItem', () => {
