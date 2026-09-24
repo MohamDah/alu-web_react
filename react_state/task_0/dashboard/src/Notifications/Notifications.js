@@ -17,17 +17,19 @@ class Notifications extends React.Component {
 
     // Lifecycle Methods
     shouldComponentUpdate(updatedProps, updatedState) {
+        if (updatedProps.displayDrawer !== this.props.displayDrawer)
+            return true;
         if (updatedProps.listNotifications.length > this.props.listNotifications.length)
             return true;
         return false;
     }
 
     render() {
-        const { displayDrawer, listNotifications } = this.props;
+        const { displayDrawer, handleDisplayDrawer, handleHideDrawer, listNotifications } = this.props;
 
         return (
             <>
-            <div className="menuItem">
+            <div className="menuItem" onClick={ handleDisplayDrawer }>
                 Your notifications
             </div>
             { displayDrawer &&
@@ -36,9 +38,7 @@ class Notifications extends React.Component {
                         <>
                             <button
                                 aria-label="Close"
-                                onClick={ () => {
-                                    console.log('Close button has been clicked');
-                                } }
+                                onClick={ handleHideDrawer }
                             ><img
                                     src={ close_icon }
                                     alt="Close"
@@ -67,11 +67,15 @@ class Notifications extends React.Component {
 
 Notifications.propTypes = {
     displayDrawer: PropTypes.bool,
+    handleDisplayDrawer: PropTypes.func,
+    handleHideDrawer: PropTypes.func,
     listNotifications: PropTypes.arrayOf(NotificationItemShape),
 };
 
 Notifications.defaultProps = {
     displayDrawer: false,
+    handleDisplayDrawer: () => {},
+    handleHideDrawer: () => {},
     listNotifications: [],
 }
 

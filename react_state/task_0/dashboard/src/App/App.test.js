@@ -22,6 +22,24 @@ describe('<App />', () => {
         expect(wrapper.find(Notifications)).toHaveLength(1);
     });
 
+    it('sets displayDrawer to true when handleDisplayDrawer is called', () => {
+        const wrapper = shallow(<App />);
+        const instance = wrapper.instance();
+
+        expect(wrapper.state('displayDrawer')).toBe(false);
+        instance.handleDisplayDrawer();
+        expect(wrapper.state('displayDrawer')).toBe(true);
+    });
+
+    it('sets displayDrawer to false when handleHideDrawer is called', () => {
+        const wrapper = shallow(<App />);
+        wrapper.setState({ displayDrawer: true });
+        const instance = wrapper.instance();
+
+        instance.handleHideDrawer();
+        expect(wrapper.state('displayDrawer')).toBe(false);
+    });
+
     it('renders an <App /> component checking for <Header />', () => {
         const wrapper = shallow(<App />);
         expect(wrapper.find(Header)).toHaveLength(1);

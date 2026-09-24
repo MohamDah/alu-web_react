@@ -23,6 +23,14 @@ describe('<Notifications />', () => {
         expect(wrapper.find('.menuItem')).toHaveLength(1);
     });
 
+    it('calls handleDisplayDrawer when the menu item is clicked', () => {
+        const handleDisplayDrawer = jest.fn();
+        const wrapper = shallow(<Notifications handleDisplayDrawer={ handleDisplayDrawer } />);
+
+        wrapper.find('.menuItem').simulate('click');
+        expect(handleDisplayDrawer).toHaveBeenCalledTimes(1);
+    });
+
     it('does not display div.Notifications when displayDrawer is false', () => {
         const wrapper = shallow(<Notifications displayDrawer={ false } />);
         expect(wrapper.find('.Notifications')).toHaveLength(0);
@@ -36,6 +44,16 @@ describe('<Notifications />', () => {
     it('does not display div.Notifications when displayDrawer is true', () => {
         const wrapper = shallow(<Notifications displayDrawer={ true } />);
         expect(wrapper.find('.Notifications')).toHaveLength(1);
+    });
+
+    it('calls handleHideDrawer when the close button is clicked', () => {
+        const handleHideDrawer = jest.fn();
+        const wrapper = shallow(
+            <Notifications displayDrawer={ true } handleHideDrawer={ handleHideDrawer } />
+        );
+
+        wrapper.find('button[aria-label="Close"]').simulate('click');
+        expect(handleHideDrawer).toHaveBeenCalledTimes(1);
     });
 
     it('renders an <Notifications /> component checking for 3 NotificationItems', () => {
